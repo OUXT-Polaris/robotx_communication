@@ -37,14 +37,13 @@ void receive_messages(int socket_1)
 {
   char buffer[64];
 
-  if(recv(socket_1, buffer, sizeof(buffer), 0) < 0){
+  if (recv(socket_1, buffer, sizeof(buffer), 0) < 0) {
     printf("cannot get messages\n");
   }
   printf("%s\n", buffer);
 
   close(socket_1);
 }
-
 
 int main()
 {
@@ -54,24 +53,24 @@ int main()
   int len;
 
   // bind socket
-  if(bind_socket(socket_1) < 0){
+  if (bind_socket(socket_1) < 0) {
     printf("cannot bind socket\n");
     exit(1);
   }
 
   // listen port
-  if(listen(socket_1, 1) < 0){
+  if (listen(socket_1, 1) < 0) {
     printf("cannot listen port\n");
     exit(1);
   }
 
   // connect w/ clients
   printf("connecting clients");
-  for(;;){
+  for (;;) {
     len = sizeof(client_addr);
     printf(".");
 
-    if(accept(socket_1, (struct sockaddr *)&client_addr, &len) == -1){
+    if (accept(socket_1, (struct sockaddr *)&client_addr, &len) == -1) {
       printf("cannot connect with clients\n");
     } else {
       printf("addr: %s\n", inet_ntoa(client_addr.sin_addr));
