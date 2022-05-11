@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 #include <arpa/inet.h>  // for structs
 #include <stdio.h>
 #include <stdlib.h>      // for exit()
