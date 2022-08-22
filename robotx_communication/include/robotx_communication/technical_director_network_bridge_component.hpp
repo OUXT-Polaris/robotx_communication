@@ -63,6 +63,7 @@ extern "C" {
 #endif
 
 #include <rclcpp/rclcpp.hpp>
+#include <geographic_msgs/msg/geo_point.hpp>
 
 namespace robotx_communication
 {
@@ -71,6 +72,8 @@ class TechnicalDirectorNetworkBridgeComponent : public rclcpp::Node
 public:
   ROBOTX_COMMUNICATION_TECHNICAL_DIRECTOR_NETWORK_BRIDGE_COMPONENT_PUBLIC
   TechnicalDirectorNetworkBridgeComponent(const rclcpp::NodeOptions & options);
+private:
+  void HeartBeatCallback();
 };
 }  // namespace robotx_communication
 

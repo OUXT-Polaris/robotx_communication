@@ -13,6 +13,7 @@
   <depend>rclcpp_components</depend>
   <depend>tcp_sender</depend>
   <depend>geographic_msgs</depend>
+  <exec_depend>mock_server</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ouxt_lint_common</test_depend>
