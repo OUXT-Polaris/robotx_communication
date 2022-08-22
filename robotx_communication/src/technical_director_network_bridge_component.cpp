@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// #include <rclcpp_components/register_node_macro.hpp>
 #include <robotx_communication/technical_director_network_bridge_component.hpp>
-#include <rclcpp_components/register_node_macro.hpp>
 
 namespace robotx_communication
 {
@@ -22,7 +20,13 @@ TechnicalDirectorNetworkBridgeComponent::TechnicalDirectorNetworkBridgeComponent
   const rclcpp::NodeOptions & options)
 : Node("technical_director_network_bridge", options)
 {
+  using namespace std::chrono_literals;
+  heartbeat_timer_ = create_wall_timer(
+    100ms, std::bind(&TechnicalDirectorNetworkBridgeComponent::publishHeartBeat, this));
 }
+
+void TechnicalDirectorNetworkBridgeComponent::publishHeartBeat() {}
 }  // namespace robotx_communication
 
+#include <rclcpp_components/register_node_macro.hpp>
 RCLCPP_COMPONENTS_REGISTER_NODE(robotx_communication::TechnicalDirectorNetworkBridgeComponent)
