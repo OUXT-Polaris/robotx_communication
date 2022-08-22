@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <rclcpp_components/register_node_macro.hpp>
 #include <robotx_communication/technical_director_network_bridge_component.hpp>
 
 namespace robotx_communication
@@ -22,3 +23,5 @@ TechnicalDirectorNetworkBridgeComponent::TechnicalDirectorNetworkBridgeComponent
 {
 }
 }  // namespace robotx_communication
+
+RCLCPP_COMPONENTS_REGISTER_NODE(robotx_communication::TechnicalDirectorNetworkBridgeComponent)
