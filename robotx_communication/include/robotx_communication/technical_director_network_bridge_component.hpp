@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ROBOTX_COMMUNICATION__TECHNICAL_DIRECTOR_NETWORK_BRIDGE_COMPONENT_H_
-#define ROBOTX_COMMUNICATION__TECHNICAL_DIRECTOR_NETWORK_BRIDGE_COMPONENT_H_
+#ifndef ROBOTX_COMMUNICATION__TECHNICAL_DIRECTOR_NETWORK_BRIDGE_COMPONENT_HPP_
+#define ROBOTX_COMMUNICATION__TECHNICAL_DIRECTOR_NETWORK_BRIDGE_COMPONENT_HPP_
 
 #if __cplusplus
 extern "C" {
@@ -65,6 +65,8 @@ extern "C" {
 #include <boost/optional.hpp>
 #include <geographic_msgs/msg/geo_point.hpp>
 #include <rclcpp/rclcpp.hpp>
+#include <robotx_msgs/msg/autonomous_maritime_system_status.hpp>
+#include <robotx_msgs/msg/unmanned_aerial_vehicle_status.hpp>
 #include <tcp_sender/tcp_client.hpp>
 
 namespace robotx_communication
@@ -79,12 +81,31 @@ private:
   boost::asio::io_service io_service_;
   std::unique_ptr<tcp_sender::TcpClient> tcp_client_;
   std::string team_id_;
+
+  void setupAmsStatus();
+  void autonomousMaritimeSystemStatusCallback(
+    const robotx_msgs::msg::AutonomousMaritimeSystemStatus::SharedPtr msg);
+  boost::optional<robotx_msgs::msg::AutonomousMaritimeSystemStatus::SharedPtr>
+    autonomous_maritime_system_status_;
+  rclcpp::Subscription<robotx_msgs::msg::AutonomousMaritimeSystemStatus>::SharedPtr
+    autonomous_maritime_system_status_sub_;
+
+  void setupUavStatus();
+  void unmannedAerialVehicleStatusCallback(
+    const robotx_msgs::msg::UnmannedAerialVehicleStatus::SharedPtr msg);
+  boost::optional<robotx_msgs::msg::UnmannedAerialVehicleStatus::SharedPtr>
+    unmanned_aerial_vehicle_status_;
+  rclcpp::Subscription<robotx_msgs::msg::UnmannedAerialVehicleStatus>::SharedPtr
+    unmanned_aerial_vehicle_status_sub_;
+
+  void setupGeoPoint();
   void geoPointCallback(const geographic_msgs::msg::GeoPoint::SharedPtr msg);
   boost::optional<geographic_msgs::msg::GeoPoint::SharedPtr> geo_point_;
   rclcpp::Subscription<geographic_msgs::msg::GeoPoint>::SharedPtr geo_point_sub_;
+
   void publishHeartBeat();
   rclcpp::TimerBase::SharedPtr heartbeat_timer_;
 };
 }  // namespace robotx_communication
 
-#endif  // ROBOTX_COMMUNICATION__TECHNICAL_DIRECTOR_NETWORK_BRIDGE_COMPONENT_H_
+#endif  // ROBOTX_COMMUNICATION__TECHNICAL_DIRECTOR_NETWORK_BRIDGE_COMPONENT_HPP_

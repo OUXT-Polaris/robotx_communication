@@ -18,7 +18,9 @@ rclcpp_components_register_nodes(technical_director_network_bridge_component
 
 ament_auto_add_executable(technical_director_network_bridge_node
   src/technical_director_network_bridge_node.cpp
-  src/technical_director_network_bridge_component.cpp
+)
+target_link_libraries(technical_director_network_bridge_node
+  technical_director_network_bridge_component
 )
 
 if(BUILD_TESTING)

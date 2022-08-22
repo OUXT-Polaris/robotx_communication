@@ -38,15 +38,48 @@ TechnicalDirectorNetworkBridgeComponent::TechnicalDirectorNetworkBridgeComponent
   /**
    * @brief setup callbacks for heart beat
    */
+  setupGeoPoint();
+  setupAmsStatus();
+  setupUavStatus();
+  using namespace std::chrono_literals;
+  heartbeat_timer_ = create_wall_timer(
+    100ms, std::bind(&TechnicalDirectorNetworkBridgeComponent::publishHeartBeat, this));
+}
+
+void TechnicalDirectorNetworkBridgeComponent::setupGeoPoint()
+{
   declare_parameter<std::string>("geo_point_topic", "geo_point");
   std::string geo_point_topic = get_parameter("geo_point").as_string();
   geo_point_sub_ = create_subscription<geographic_msgs::msg::GeoPoint>(
     geo_point_topic, 1,
     std::bind(
       &TechnicalDirectorNetworkBridgeComponent::geoPointCallback, this, std::placeholders::_1));
-  using namespace std::chrono_literals;
-  heartbeat_timer_ = create_wall_timer(
-    100ms, std::bind(&TechnicalDirectorNetworkBridgeComponent::publishHeartBeat, this));
+}
+
+void TechnicalDirectorNetworkBridgeComponent::setupAmsStatus()
+{
+  declare_parameter<std::string>("autonomous_maritime_system_status_topic", "ams/status");
+  std::string autonomous_maritime_system_status_topic =
+    get_parameter("autonomous_maritime_system_status_topic").as_string();
+  autonomous_maritime_system_status_sub_ =
+    create_subscription<robotx_msgs::msg::AutonomousMaritimeSystemStatus>(
+      autonomous_maritime_system_status_topic, 1,
+      std::bind(
+        &TechnicalDirectorNetworkBridgeComponent::autonomousMaritimeSystemStatusCallback, this,
+        std::placeholders::_1));
+}
+
+void TechnicalDirectorNetworkBridgeComponent::setupUavStatus()
+{
+  declare_parameter<std::string>("unmanned_aerial_vehicle_status_topic", "uav/status");
+  std::string unmanned_aerial_vehicle_status_topic =
+    get_parameter("unmanned_aerial_vehicle_status_topic").as_string();
+  unmanned_aerial_vehicle_status_sub_ =
+    create_subscription<robotx_msgs::msg::UnmannedAerialVehicleStatus>(
+      unmanned_aerial_vehicle_status_topic, 1,
+      std::bind(
+        &TechnicalDirectorNetworkBridgeComponent::unmannedAerialVehicleStatusCallback, this,
+        std::placeholders::_1));
 }
 
 void TechnicalDirectorNetworkBridgeComponent::geoPointCallback(
@@ -55,7 +88,33 @@ void TechnicalDirectorNetworkBridgeComponent::geoPointCallback(
   geo_point_ = msg;
 }
 
-void TechnicalDirectorNetworkBridgeComponent::publishHeartBeat() {}
+void TechnicalDirectorNetworkBridgeComponent::autonomousMaritimeSystemStatusCallback(
+  const robotx_msgs::msg::AutonomousMaritimeSystemStatus::SharedPtr msg)
+{
+  autonomous_maritime_system_status_ = msg;
+}
+
+void TechnicalDirectorNetworkBridgeComponent::unmannedAerialVehicleStatusCallback(
+  const robotx_msgs::msg::UnmannedAerialVehicleStatus::SharedPtr msg)
+{
+  unmanned_aerial_vehicle_status_ = msg;
+}
+
+void TechnicalDirectorNetworkBridgeComponent::publishHeartBeat()
+{
+  if (!geo_point_) {
+    RCLCPP_WARN_STREAM(get_logger(), "geopoint has not recieved yet");
+    return;
+  }
+  if (!autonomous_maritime_system_status_) {
+    RCLCPP_WARN_STREAM(get_logger(), "autonomous_maritime_system_status has not recieved yet");
+  }
+  if (!unmanned_aerial_vehicle_status_) {
+    RCLCPP_WARN_STREAM(get_logger(), "unmanned_aerial_vehicle_status has not recieved yet");
+  }
+  std::string msg = "$RXHRB";
+  rclcpp::Time now = get_clock()->now();
+}
 }  // namespace robotx_communication
 
 #include <rclcpp_components/register_node_macro.hpp>
