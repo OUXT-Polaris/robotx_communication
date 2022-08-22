@@ -20,9 +20,21 @@ TechnicalDirectorNetworkBridgeComponent::TechnicalDirectorNetworkBridgeComponent
   const rclcpp::NodeOptions & options)
 : Node("technical_director_network_bridge", options)
 {
+  declare_parameter("geo_point_topic", "geo_point");
+  std::string geo_point_topic = get_parameter("geo_point").as_string();
+  geo_point_sub_ = create_subscription<geographic_msgs::msg::GeoPoint>(
+    geo_point_topic, 1,
+    std::bind(
+      &TechnicalDirectorNetworkBridgeComponent::geoPointCallback, this, std::placeholders::_1));
   using namespace std::chrono_literals;
   heartbeat_timer_ = create_wall_timer(
     100ms, std::bind(&TechnicalDirectorNetworkBridgeComponent::publishHeartBeat, this));
+}
+
+void TechnicalDirectorNetworkBridgeComponent::geoPointCallback(
+  const geographic_msgs::msg::GeoPoint::SharedPtr msg)
+{
+  geo_point_ = msg;
 }
 
 void TechnicalDirectorNetworkBridgeComponent::publishHeartBeat() {}

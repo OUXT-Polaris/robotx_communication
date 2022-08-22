@@ -62,6 +62,7 @@ extern "C" {
 }  // extern "C"
 #endif
 
+#include <boost/optional.hpp>
 #include <geographic_msgs/msg/geo_point.hpp>
 #include <rclcpp/rclcpp.hpp>
 
@@ -74,6 +75,9 @@ public:
   TechnicalDirectorNetworkBridgeComponent(const rclcpp::NodeOptions & options);
 
 private:
+  void geoPointCallback(const geographic_msgs::msg::GeoPoint::SharedPtr msg);
+  boost::optional<geographic_msgs::msg::GeoPoint::SharedPtr> geo_point_;
+  rclcpp::Subscription<geographic_msgs::msg::GeoPoint>::SharedPtr geo_point_sub_;
   void publishHeartBeat();
   rclcpp::TimerBase::SharedPtr heartbeat_timer_;
 };
