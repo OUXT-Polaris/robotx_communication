@@ -65,6 +65,7 @@ extern "C" {
 #include <boost/optional.hpp>
 #include <geographic_msgs/msg/geo_point.hpp>
 #include <rclcpp/rclcpp.hpp>
+#include <tcp_sender/tcp_client.hpp>
 
 namespace robotx_communication
 {
@@ -75,6 +76,8 @@ public:
   TechnicalDirectorNetworkBridgeComponent(const rclcpp::NodeOptions & options);
 
 private:
+  boost::asio::io_service io_service_;
+  std::unique_ptr<tcp_sender::TcpClient> tcp_client_;
   void geoPointCallback(const geographic_msgs::msg::GeoPoint::SharedPtr msg);
   boost::optional<geographic_msgs::msg::GeoPoint::SharedPtr> geo_point_;
   rclcpp::Subscription<geographic_msgs::msg::GeoPoint>::SharedPtr geo_point_sub_;

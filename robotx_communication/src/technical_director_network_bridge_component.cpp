@@ -20,7 +20,19 @@ TechnicalDirectorNetworkBridgeComponent::TechnicalDirectorNetworkBridgeComponent
   const rclcpp::NodeOptions & options)
 : Node("technical_director_network_bridge", options)
 {
-  declare_parameter("geo_point_topic", "geo_point");
+  /**
+   * @brief setup tcp client
+   */
+  declare_parameter<std::string>("ip_address", "0.0.0.0");
+  std::string ip_address = get_parameter("ip_address").as_string();
+  declare_parameter<int>("port", 8000);
+  int port = get_parameter("port").as_int();
+  tcp_client_ = std::make_unique<tcp_sender::TcpClient>(io_service_, get_logger());
+
+  /**
+   * @brief setup callbacks for heart beat
+   */
+  declare_parameter<std::string>("geo_point_topic", "geo_point");
   std::string geo_point_topic = get_parameter("geo_point").as_string();
   geo_point_sub_ = create_subscription<geographic_msgs::msg::GeoPoint>(
     geo_point_topic, 1,
