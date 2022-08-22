@@ -45,6 +45,15 @@ TechnicalDirectorNetworkBridgeComponent::TechnicalDirectorNetworkBridgeComponent
 
 void TechnicalDirectorNetworkBridgeComponent::publishHeartBeat()
 {
+  if (!geo_sub_.isTimeout() || !ams_status_sub_.isTimeout() || !uav_status_sub_.isTimeout()) {
+    return;
+  }
+  const auto geo_point = geo_sub_.get();
+  const auto ams_status = ams_status_sub_.get();
+  const auto uav_status = uav_status_sub_.get();
+  if (!geo_point || !ams_status || !uav_status) {
+    return;
+  }
   std::string msg = "$RXHRB";
   rclcpp::Time now = get_clock()->now();
 }

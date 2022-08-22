@@ -46,7 +46,7 @@ public:
     return false;
   }
 
-  boost::optional<T> get()
+  boost::optional<std::shared_ptr<T>> get()
   {
     if (!data_) {
       RCLCPP_WARN_STREAM(logger_, "topic : " << topic << " has not subscribed yet.");
