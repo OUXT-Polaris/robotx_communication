@@ -56,7 +56,7 @@ void receive_messages(int socket_1)
   }
   printf("%s\n", buffer);
 
-  close(socket_1);
+  pclose(socket_1);
 }
 
 int main()

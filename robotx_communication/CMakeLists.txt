@@ -5,19 +5,21 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
 find_package(ament_cmake_auto REQUIRED)
-find_package(rclcpp REQUIRED)
+ament_auto_find_build_dependencies()
 
-add_executable(mock_server
-  src/mock_server.c
+ament_auto_add_library(technical_director_network_bridge_component SHARED
+  src/technical_director_network_bridge_component.cpp
 )
 
-install(TARGETS mock_server DESTINATION lib/${PROJECT_NAME})
+ament_auto_add_executable(technical_director_network_bridge_node
+  src/technical_director_network_bridge_node.cpp
+  src/technical_director_network_bridge_component.cpp
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-ament_package()
+ament_auto_package()
