@@ -21,6 +21,11 @@ TechnicalDirectorNetworkBridgeComponent::TechnicalDirectorNetworkBridgeComponent
 : Node("technical_director_network_bridge", options)
 {
   /**
+   * @brief setup parameters
+   */
+  declare_parameter("team_id", "OUXTPOLARIS");
+  team_id_ = get_parameter("team_id").as_string();
+  /**
    * @brief setup tcp client
    */
   declare_parameter<std::string>("ip_address", "0.0.0.0");
@@ -28,6 +33,7 @@ TechnicalDirectorNetworkBridgeComponent::TechnicalDirectorNetworkBridgeComponent
   declare_parameter<int>("port", 8000);
   int port = get_parameter("port").as_int();
   tcp_client_ = std::make_unique<tcp_sender::TcpClient>(io_service_, get_logger());
+  tcp_client_->connect(ip_address, port);
 
   /**
    * @brief setup callbacks for heart beat

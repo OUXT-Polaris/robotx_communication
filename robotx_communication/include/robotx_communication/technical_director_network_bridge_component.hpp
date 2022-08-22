@@ -78,6 +78,7 @@ public:
 private:
   boost::asio::io_service io_service_;
   std::unique_ptr<tcp_sender::TcpClient> tcp_client_;
+  std::string team_id_;
   void geoPointCallback(const geographic_msgs::msg::GeoPoint::SharedPtr msg);
   boost::optional<geographic_msgs::msg::GeoPoint::SharedPtr> geo_point_;
   rclcpp::Subscription<geographic_msgs::msg::GeoPoint>::SharedPtr geo_point_sub_;
