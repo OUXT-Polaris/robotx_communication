@@ -65,6 +65,7 @@ extern "C" {
 #include <boost/optional.hpp>
 #include <geographic_msgs/msg/geo_point.hpp>
 #include <rclcpp/rclcpp.hpp>
+#include <robotx_communication/subscriber.hpp>
 #include <robotx_msgs/msg/autonomous_maritime_system_status.hpp>
 #include <robotx_msgs/msg/unmanned_aerial_vehicle_status.hpp>
 #include <tcp_sender/tcp_client.hpp>
@@ -82,26 +83,10 @@ private:
   std::unique_ptr<tcp_sender::TcpClient> tcp_client_;
   std::string team_id_;
 
-  void setupAmsStatus();
-  void autonomousMaritimeSystemStatusCallback(
-    const robotx_msgs::msg::AutonomousMaritimeSystemStatus::SharedPtr msg);
-  boost::optional<robotx_msgs::msg::AutonomousMaritimeSystemStatus::SharedPtr>
-    autonomous_maritime_system_status_;
-  rclcpp::Subscription<robotx_msgs::msg::AutonomousMaritimeSystemStatus>::SharedPtr
-    autonomous_maritime_system_status_sub_;
-
-  void setupUavStatus();
-  void unmannedAerialVehicleStatusCallback(
-    const robotx_msgs::msg::UnmannedAerialVehicleStatus::SharedPtr msg);
-  boost::optional<robotx_msgs::msg::UnmannedAerialVehicleStatus::SharedPtr>
-    unmanned_aerial_vehicle_status_;
-  rclcpp::Subscription<robotx_msgs::msg::UnmannedAerialVehicleStatus>::SharedPtr
-    unmanned_aerial_vehicle_status_sub_;
-
-  void setupGeoPoint();
-  void geoPointCallback(const geographic_msgs::msg::GeoPoint::SharedPtr msg);
-  boost::optional<geographic_msgs::msg::GeoPoint::SharedPtr> geo_point_;
-  rclcpp::Subscription<geographic_msgs::msg::GeoPoint>::SharedPtr geo_point_sub_;
+  robotx_communication::Subscriber<geographic_msgs::msg::GeoPoint> geo_sub_;
+  robotx_communication::Subscriber<robotx_msgs::msg::UnmannedAerialVehicleStatus> uav_status_sub_;
+  robotx_communication::Subscriber<robotx_msgs::msg::AutonomousMaritimeSystemStatus>
+    ams_status_sub_;
 
   void publishHeartBeat();
   rclcpp::TimerBase::SharedPtr heartbeat_timer_;
