@@ -1,0 +1,5 @@
+uint8 REMOTE_OPERATED=1
+uint8 AUTONOMOUS=2
+uint8 KILLED=3
+
+uint8 status
