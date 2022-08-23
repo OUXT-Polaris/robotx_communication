@@ -15,12 +15,12 @@
 
 namespace robotx_communication
 {
-const std::string & getHexString(uint8_t value)
+std::string getHexString(uint8_t value)
 {
   if (value > 16) {
     throw std::runtime_error("value is over 16, current value is " + std::to_string(value));
   }
-  std::string ret;
+  std::string ret = "";
   if (value == 10) {
     ret = "A";
   } else if (value == 11) {
@@ -39,7 +39,7 @@ const std::string & getHexString(uint8_t value)
   return ret;
 }
 
-const std::string & bitxor(const std::string & str)
+std::string bitxor(const std::string & str)
 {
   uint8_t checksum = 0;
   for (size_t i = 1; i < str.size(); i++) {
@@ -52,7 +52,7 @@ const std::string & bitxor(const std::string & str)
   return ret;
 }
 
-const std::string & getDateTimeString()
+std::string getDateTimeString()
 {
   auto timer = time(NULL);
   const auto local = localtime(&timer);
@@ -82,15 +82,14 @@ const std::string & getDateTimeString()
   return ret;
 }
 
-const std::string & floatToString(float f, int digits)
+std::string floatToString(float f, int digits)
 {
   std::ostringstream oss;
-  oss << std::setprecision(digits) << std::setiosflags(ios::fixed) << f;
+  oss << std::setprecision(digits) << std::setiosflags(std::ios::fixed) << f;
   return oss.str();
 }
 
-const std::string & getGeoPointString(
-  const std::shared_ptr<geographic_msgs::msg::GeoPoint> & geo_point)
+std::string getGeoPointString(const std::shared_ptr<geographic_msgs::msg::GeoPoint> & geo_point)
 {
   std::string ret = floatToString(std::abs(geo_point->latitude), 5) + ",";
   if (geo_point->latitude < 0) {

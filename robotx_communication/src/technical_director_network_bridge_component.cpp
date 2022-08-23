@@ -54,8 +54,8 @@ void TechnicalDirectorNetworkBridgeComponent::publishHeartBeat()
   if (!geo_point || !ams_status || !uav_status) {
     return;
   }
-  std::string msg =
-    "$RXHRB," + getDateTimeString() + "," + floatToString(std::abs(geo_point.get()->latitude));
+  std::string msg = "$RXHRB," + getDateTimeString() + "," + getGeoPointString(geo_point.get()) +
+                    team_id_ + "," + std::to_string(0);
   // rclcpp::Time now = get_clock()->now();
 }
 }  // namespace robotx_communication
