@@ -55,8 +55,10 @@ void TechnicalDirectorNetworkBridgeComponent::publishHeartBeat()
     return;
   }
   std::string msg = "$RXHRB," + getDateTimeString() + "," + getGeoPointString(geo_point.get()) +
-                    team_id_ + "," + std::to_string(0);
-  // rclcpp::Time now = get_clock()->now();
+                    team_id_ + "," + std::to_string(ams_status.get()->status) + "," +
+                    std::to_string(uav_status.get()->status);
+  msg = msg + "*" + bitxor(msg);
+  tcp_client_->send(msg);
 }
 }  // namespace robotx_communication
 
