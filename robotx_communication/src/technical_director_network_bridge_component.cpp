@@ -43,15 +43,6 @@ TechnicalDirectorNetworkBridgeComponent::TechnicalDirectorNetworkBridgeComponent
     100ms, std::bind(&TechnicalDirectorNetworkBridgeComponent::publishHeartBeat, this));
 }
 
-uint8_t TechnicalDirectorNetworkBridgeComponent::bitxor(const std::string & str) const
-{
-  unsigned char checksum = str.at(0);
-  for (size_t i = 1; i < str.length(); i++) {
-    checksum = checksum ^ str.at(i);
-  }
-  return checksum;
-}
-
 void TechnicalDirectorNetworkBridgeComponent::publishHeartBeat()
 {
   if (!geo_sub_.isTimeout() || !ams_status_sub_.isTimeout() || !uav_status_sub_.isTimeout()) {

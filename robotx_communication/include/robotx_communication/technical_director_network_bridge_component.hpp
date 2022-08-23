@@ -66,6 +66,7 @@ extern "C" {
 #include <geographic_msgs/msg/geo_point.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <robotx_communication/subscriber.hpp>
+#include <robotx_communication/util.hpp>
 #include <robotx_msgs/msg/autonomous_maritime_system_status.hpp>
 #include <robotx_msgs/msg/unmanned_aerial_vehicle_status.hpp>
 #include <tcp_sender/tcp_client.hpp>
@@ -82,8 +83,6 @@ private:
   boost::asio::io_service io_service_;
   std::unique_ptr<tcp_sender::TcpClient> tcp_client_;
   std::string team_id_;
-
-  uint8_t bitxor(const std::string & str) const;
 
   robotx_communication::Subscriber<geographic_msgs::msg::GeoPoint> geo_sub_;
   robotx_communication::Subscriber<robotx_msgs::msg::UnmannedAerialVehicleStatus> uav_status_sub_;
