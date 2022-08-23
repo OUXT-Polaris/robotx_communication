@@ -83,6 +83,8 @@ private:
   std::unique_ptr<tcp_sender::TcpClient> tcp_client_;
   std::string team_id_;
 
+  uint8_t bitxor(const std::string & str) const;
+
   robotx_communication::Subscriber<geographic_msgs::msg::GeoPoint> geo_sub_;
   robotx_communication::Subscriber<robotx_msgs::msg::UnmannedAerialVehicleStatus> uav_status_sub_;
   robotx_communication::Subscriber<robotx_msgs::msg::AutonomousMaritimeSystemStatus>
