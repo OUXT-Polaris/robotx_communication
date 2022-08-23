@@ -81,4 +81,29 @@ const std::string & getDateTimeString()
   std::string ret = day + month + year + "," + hour + minutes + seconds;
   return ret;
 }
+
+const std::string & floatToString(float f, int digits)
+{
+  std::ostringstream oss;
+  oss << std::setprecision(digits) << std::setiosflags(ios::fixed) << f;
+  return oss.str();
+}
+
+const std::string & getGeoPointString(
+  const std::shared_ptr<geographic_msgs::msg::GeoPoint> & geo_point)
+{
+  std::string ret = floatToString(std::abs(geo_point->latitude), 5) + ",";
+  if (geo_point->latitude < 0) {
+    ret = ret + "S,";
+  } else {
+    ret = ret + "N,";
+  }
+  ret = ret + floatToString(std::abs(geo_point->longitude), 5) + ",";
+  if (geo_point->longitude < 0) {
+    ret = ret + "W,";
+  } else {
+    ret = ret + "E,";
+  }
+  return ret;
+}
 }  // namespace robotx_communication

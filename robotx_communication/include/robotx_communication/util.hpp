@@ -16,6 +16,7 @@
 #define ROBOTX_COMMUNICATION__UTIL_HPP_
 
 #include <algorithm>
+#include <geographic_msgs/msg/geo_point.hpp>
 #include <string>
 #include <vector>
 
@@ -24,6 +25,9 @@ namespace robotx_communication
 const std::string & getHexString(uint8_t value);
 const std::string & bitxor(const std::string & str);
 const std::string & getDateTimeString();
+const std::string & floatToString(float f, int digits);
+const std::string & getGeoPointString(
+  const std::shared_ptr<geographic_msgs::msg::GeoPoint> & geo_point);
 }  // namespace robotx_communication
 
 #endif  // ROBOTX_COMMUNICATION__UTIL_HPP_

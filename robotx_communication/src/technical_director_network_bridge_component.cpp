@@ -54,7 +54,8 @@ void TechnicalDirectorNetworkBridgeComponent::publishHeartBeat()
   if (!geo_point || !ams_status || !uav_status) {
     return;
   }
-  std::string msg = "$RXHRB";
+  std::string msg =
+    "$RXHRB," + getDateTimeString() + "," + floatToString(std::abs(geo_point.get()->latitude));
   // rclcpp::Time now = get_clock()->now();
 }
 }  // namespace robotx_communication
