@@ -55,7 +55,7 @@ void TechnicalDirectorNetworkBridgeComponent::publishHeartBeat()
     return;
   }
   std::string msg = "$RXHRB";
-  rclcpp::Time now = get_clock()->now();
+  // rclcpp::Time now = get_clock()->now();
 }
 }  // namespace robotx_communication
 

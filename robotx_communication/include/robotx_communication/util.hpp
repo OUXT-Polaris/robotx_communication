@@ -21,8 +21,9 @@
 
 namespace robotx_communication
 {
-std::string getHexString(uint8_t value);
-std::string bitxor(const std::string & str);
+const std::string & getHexString(uint8_t value);
+const std::string & bitxor(const std::string & str);
+const std::string & getDateTimeString();
 }  // namespace robotx_communication
 
 #endif  // ROBOTX_COMMUNICATION__UTIL_HPP_

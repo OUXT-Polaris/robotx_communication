@@ -15,7 +15,7 @@
 
 namespace robotx_communication
 {
-std::string getHexString(uint8_t value)
+const std::string & getHexString(uint8_t value)
 {
   if (value > 16) {
     throw std::runtime_error("value is over 16, current value is " + std::to_string(value));
@@ -39,7 +39,7 @@ std::string getHexString(uint8_t value)
   return ret;
 }
 
-std::string bitxor(const std::string & str)
+const std::string & bitxor(const std::string & str)
 {
   uint8_t checksum = 0;
   for (size_t i = 1; i < str.size(); i++) {
@@ -49,6 +49,36 @@ std::string bitxor(const std::string & str)
   uint8_t rest = checksum % 16;
   uint8_t quotient = (checksum - rest) / 16;
   std::string ret = getHexString(quotient) + getHexString(rest);
+  return ret;
+}
+
+const std::string & getDateTimeString()
+{
+  auto timer = time(NULL);
+  const auto local = localtime(&timer);
+  std::string year = std::to_string(local->tm_year + 1900);
+  year.substr(year.length() - 2, 2);
+  std::string month = std::to_string(local->tm_mon + 1);
+  if (local->tm_mon <= 9) {
+    month = "0" + month;
+  }
+  std::string day = std::to_string(local->tm_mday);
+  if (local->tm_mday <= 9) {
+    day = "0" + day;
+  }
+  std::string hour = std::to_string(local->tm_hour);
+  if (local->tm_hour <= 9) {
+    hour = "0" + hour;
+  }
+  std::string minutes = std::to_string(local->tm_min);
+  if (local->tm_min <= 9) {
+    minutes = "0" + minutes;
+  }
+  std::string seconds = std::to_string(local->tm_sec);
+  if (local->tm_sec <= 9) {
+    seconds = "0" + seconds;
+  }
+  std::string ret = day + month + year + "," + hour + minutes + seconds;
   return ret;
 }
 }  // namespace robotx_communication
