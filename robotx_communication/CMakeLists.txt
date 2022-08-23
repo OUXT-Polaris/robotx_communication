@@ -10,7 +10,7 @@ ament_auto_find_build_dependencies()
 
 ament_auto_add_library(technical_director_network_bridge_component SHARED
   src/technical_director_network_bridge_component.cpp
-  src/utils.cpp
+  src/util.cpp
 )
 target_compile_definitions(technical_director_network_bridge_component
   PRIVATE "ROBOTX_COMMUNICATION_TECHNICAL_DIRECTOR_NETWORK_BRIDGE_COMPONENT_BUILDING_DLL")
@@ -27,7 +27,7 @@ target_link_libraries(technical_director_network_bridge_node
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
-  ament_add_gtest(${PROJECT_NAME}_test src/test.cpp)
+  ament_add_gtest(${PROJECT_NAME}_test test/test.cpp)
   target_link_libraries(${PROJECT_NAME}_test technical_director_network_bridge_component)
 endif()
 
