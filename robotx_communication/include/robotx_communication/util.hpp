@@ -21,8 +21,8 @@
 
 namespace robotx_communication
 {
-std::vector<std::byte> toBytesArray(const std::string & str);
-std::byte bitxor(const std::string & str);
+std::string getHexString(uint8_t value);
+std::string bitxor(const std::string & str);
 }  // namespace robotx_communication
 
 #endif  // ROBOTX_COMMUNICATION__UTIL_HPP_

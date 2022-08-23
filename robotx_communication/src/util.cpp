@@ -15,25 +15,40 @@
 
 namespace robotx_communication
 {
-std::vector<std::byte> toBytesArray(const std::string & str)
+std::string getHexString(uint8_t value)
 {
-  std::vector<std::byte> bytes;
-  std::transform(
-    std::begin(str), std::end(str), std::begin(bytes), [](char c) { return std::byte(c); });
-  return bytes;
+  if (value > 16) {
+    throw std::runtime_error("value is over 16, current value is " + std::to_string(value));
+  }
+  std::string ret;
+  if (value == 10) {
+    ret = "A";
+  } else if (value == 11) {
+    ret = "B";
+  } else if (value == 12) {
+    ret = "C";
+  } else if (value == 13) {
+    ret = "D";
+  } else if (value == 14) {
+    ret = "E";
+  } else if (value == 15) {
+    ret = "F";
+  } else {
+    ret = std::to_string(value);
+  }
+  return ret;
 }
 
-std::byte bitxor(const std::string & str)
+std::string bitxor(const std::string & str)
 {
-  const auto bytes = toBytesArray(str);
-  /*
-  std::byte checksum = str.at(0);
-  for (size_t i = 1; i < str.length(); i++) {
-    checksum = checksum ^ str.at(i);
+  uint8_t checksum = 0;
+  for (size_t i = 1; i < str.size(); i++) {
+    int c = str[i];
+    checksum ^= c;
   }
-  return checksum;
-  */
-  std::byte a{0b1010'1010};
-  return a;
+  uint8_t rest = checksum % 16;
+  uint8_t quotient = (checksum - rest) / 16;
+  std::string ret = getHexString(quotient) + getHexString(rest);
+  return ret;
 }
 }  // namespace robotx_communication

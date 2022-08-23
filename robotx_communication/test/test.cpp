@@ -18,8 +18,8 @@
 
 TEST(UTIL, BITXOR)
 {
-  std::string str = "$RXGAT,111221,161229,ROBOT,1,2*";
-  EXPECT_EQ(robotx_communication::bitxor(str), std::byte{0b1010'1010});
+  std::string str = "$RXGAT,111221,161229,ROBOT,1,2";
+  EXPECT_EQ(robotx_communication::bitxor(str), "3C");
 }
 
 int main(int argc, char ** argv)
