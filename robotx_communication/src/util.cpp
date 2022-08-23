@@ -15,12 +15,25 @@
 
 namespace robotx_communication
 {
-uint8_t bitxor(const std::string & str)
+std::vector<std::byte> toBytesArray(const std::string & str)
 {
-  unsigned char checksum = str.at(0);
+  std::vector<std::byte> bytes;
+  std::transform(
+    std::begin(str), std::end(str), std::begin(bytes), [](char c) { return std::byte(c); });
+  return bytes;
+}
+
+std::byte bitxor(const std::string & str)
+{
+  const auto bytes = toBytesArray(str);
+  /*
+  std::byte checksum = str.at(0);
   for (size_t i = 1; i < str.length(); i++) {
     checksum = checksum ^ str.at(i);
   }
   return checksum;
+  */
+  std::byte a{0b1010'1010};
+  return a;
 }
 }  // namespace robotx_communication

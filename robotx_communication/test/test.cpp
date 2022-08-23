@@ -14,7 +14,13 @@
 
 #include <gtest/gtest.h>
 
-TEST(UTIL, BITXOR) {}
+#include <robotx_communication/util.hpp>
+
+TEST(UTIL, BITXOR)
+{
+  std::string str = "$RXGAT,111221,161229,ROBOT,1,2*";
+  EXPECT_EQ(robotx_communication::bitxor(str), std::byte{0b1010'1010});
+}
 
 int main(int argc, char ** argv)
 {

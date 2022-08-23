@@ -15,11 +15,14 @@
 #ifndef ROBOTX_COMMUNICATION__UTIL_HPP_
 #define ROBOTX_COMMUNICATION__UTIL_HPP_
 
+#include <algorithm>
 #include <string>
+#include <vector>
 
 namespace robotx_communication
 {
-uint8_t bitxor(const std::string & str);
+std::vector<std::byte> toBytesArray(const std::string & str);
+std::byte bitxor(const std::string & str);
 }  // namespace robotx_communication
 
 #endif  // ROBOTX_COMMUNICATION__UTIL_HPP_
