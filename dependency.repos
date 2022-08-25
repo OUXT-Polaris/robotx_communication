@@ -1,0 +1,13 @@
+repositories:
+  ouxt_common:
+    type: git
+    url: https://github.com/OUXT-Polaris/ouxt_common.git
+    version: master
+  geographic_info:
+    type: git
+    url: https://github.com/OUXT-Polaris/geographic_info.git
+    version: ros2
+  tcp_sender:
+    type: git
+    url: https://github.com/OUXT-Polaris/tcp_sender.git
+    version: master

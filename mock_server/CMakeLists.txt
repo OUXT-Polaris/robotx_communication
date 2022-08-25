@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(robotx_msgs)
+project(mock_server)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -7,14 +7,11 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rosidl_default_generators REQUIRED)
 
-rosidl_generate_interfaces(${PROJECT_NAME}
-  msg/AutonomousMaritimeSystemStatus.msg
-  msg/UnmannedAerialVehicleStatus.msg
-  #DEPENDENCIES builtin_interfaces
+add_executable(mock_server
+  src/mock_server.c
 )
-ament_export_dependencies(rosidl_default_runtime)
+install(TARGETS mock_server DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

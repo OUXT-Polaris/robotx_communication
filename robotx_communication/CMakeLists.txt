@@ -5,20 +5,30 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
-find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(robotx_msgs REQUIRED)
+find_package(ament_cmake_auto REQUIRED)
+ament_auto_find_build_dependencies()
 
-add_executable(mock_server
-  src/mock_server.c
+ament_auto_add_library(technical_director_network_bridge_component SHARED
+  src/technical_director_network_bridge_component.cpp
+  src/util.cpp
 )
+target_compile_definitions(technical_director_network_bridge_component
+  PRIVATE "ROBOTX_COMMUNICATION_TECHNICAL_DIRECTOR_NETWORK_BRIDGE_COMPONENT_BUILDING_DLL")
+rclcpp_components_register_nodes(technical_director_network_bridge_component
+  "robotx_communication::TechnicalDirectorNetworkBridgeComponent")
 
-install(TARGETS mock_server DESTINATION lib/${PROJECT_NAME})
+ament_auto_add_executable(technical_director_network_bridge_node
+  src/technical_director_network_bridge_node.cpp
+)
+target_link_libraries(technical_director_network_bridge_node
+  technical_director_network_bridge_component
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
+  ament_add_gtest(${PROJECT_NAME}_test test/test.cpp)
+  target_link_libraries(${PROJECT_NAME}_test technical_director_network_bridge_component)
 endif()
 
-ament_package()
+ament_auto_package()
